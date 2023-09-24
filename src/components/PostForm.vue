@@ -24,19 +24,17 @@ export default {
 <template>
   <form @submit.prevent class="form">
     <h3>Create post</h3>
-    <input
+    <UiInput
         v-model="post.title"
-        class="input"
         type="text"
         placeholder="Title"
-    >
-    <input
+    />
+    <UiInput
         v-model="post.body"
-        class="input"
         type="text"
         placeholder="Body"
-    >
-    <button @click="createPost" class="btn">Create</button>
+    />
+    <UiButton @click="createPost">Create</UiButton>
   </form>
 </template>
 
@@ -44,19 +42,7 @@ export default {
 .form {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 16px;
-}
-
-.input {
-  width: 100%;
-  padding: 16px;
-  border: 1px solid #ccc;
-}
-
-.btn {
-  align-self: flex-end;
-  padding: 16px;
-  border: none;
-  background-color: #ccc;
 }
 </style>

@@ -12,11 +12,11 @@ export default {
 <template>
   <li class="post">
     <div>
-      <div><strong>Название: </strong>{{ post.title }}</div>
-      <div><strong>Описание: </strong>{{ post.body }}</div>
+      <div><strong>Title: </strong>{{ post.title }}</div>
+      <div><strong>Body: </strong>{{ post.body }}</div>
     </div>
     <div>
-      <button>Delete</button>
+      <UiButton>Delete</UiButton>
     </div>
   </li>
 </template>
