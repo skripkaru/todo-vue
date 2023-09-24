@@ -16,7 +16,7 @@ export default {
       <div><strong>Body: </strong>{{ post.body }}</div>
     </div>
     <div>
-      <UiButton>Delete</UiButton>
+      <UiButton @click="$emit('remove', post)">Delete</UiButton>
     </div>
   </li>
 </template>

@@ -15,5 +15,6 @@ export default {
   padding: 16px;
   border: none;
   background-color: #ccc;
+  cursor: pointer;
 }
 </style>
