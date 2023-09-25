@@ -12,8 +12,8 @@ export default {
 <template>
   <li class="post">
     <div>
-      <div><strong>Title: </strong>{{ post.title }}</div>
-      <div><strong>Body: </strong>{{ post.body }}</div>
+      <h3>{{ post.title }}</h3>
+      <p>{{ post.body }}</p>
     </div>
     <div>
       <UiButton @click="$emit('remove', post)">Delete</UiButton>

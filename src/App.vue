@@ -3,17 +3,15 @@ import PostList from "@/components/PostList.vue";
 import PostForm from "@/components/PostForm.vue";
 import UiDialog from "@/components/UI/UiDialog.vue";
 import UiButton from "@/components/UI/UiButton.vue";
+import axios from "axios";
 
 export default {
   components: {UiButton, UiDialog, PostList, PostForm},
   data() {
     return {
-      posts: [
-        {id: 1, title: 'Title', body: 'Description 1'},
-        {id: 2, title: 'Title 2', body: 'Description 2'},
-        {id: 3, title: 'Title 3', body: 'Description 3'},
-      ],
-      dialogVisible: false
+      posts: [],
+      dialogVisible: false,
+      isPostLoading: false,
     }
   },
   methods: {
@@ -26,7 +24,21 @@ export default {
     },
     showDialog() {
       this.dialogVisible = true
+    },
+    async fetchPosts() {
+      try {
+        this.isPostLoading = true
+        const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10')
+        this.posts = response.data
+      } catch (e) {
+        console.log('Error')
+      } finally {
+        this.isPostLoading = false
+      }
     }
+  },
+  mounted() {
+    this.fetchPosts()
   }
 }
 </script>
@@ -40,7 +52,8 @@ export default {
     <UiDialog v-model:show="dialogVisible">
       <PostForm @create="createPost"/>
     </UiDialog>
-    <PostList :posts="posts" @remove="removePost"/>
+    <PostList :posts="posts" @remove="removePost" v-if="!isPostLoading"/>
+    <h3 v-else>Loading...</h3>
   </div>
 </template>
 
