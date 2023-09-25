@@ -76,17 +76,17 @@ export default {
   },
   mounted() {
     this.fetchPosts()
-    const options = {
-      rootMargin: '0px',
-      threshold: 1.0,
-    }
-    const callback = (entries, observer) => {
-      if (entries[0].isIntersecting && this.page < this.totalPages) {
-        this.loadMorePosts()
-      }
-    }
-    const observer = new IntersectionObserver(callback, options);
-    observer.observe(this.$refs.observer)
+    // const options = {
+    //   rootMargin: '0px',
+    //   threshold: 1.0,
+    // }
+    // const callback = (entries, observer) => {
+    //   if (entries[0].isIntersecting && this.page < this.totalPages) {
+    //     this.loadMorePosts()
+    //   }
+    // }
+    // const observer = new IntersectionObserver(callback, options);
+    // observer.observe(this.$refs.observer)
   },
   computed: {
     sortedPosts() {
@@ -106,7 +106,7 @@ export default {
 
 <template>
   <h1>Posts</h1>
-  <UiInput v-model="searchQuery" placeholder="Search"/>
+  <UiInput v-focus v-model="searchQuery" placeholder="Search"/>
   <div class="app__btns">
     <UiButton @click="showDialog">Create post</UiButton>
     <UiSelect v-model="selectedSort" :options="sortOptions"/>
@@ -117,7 +117,7 @@ export default {
   <PostList :posts="sortedAndSearchedPosts" @remove="removePost" v-if="!isPostLoading"/>
   <h3 v-else>Loading...</h3>
   <!--    <UiPagination :total-pages="totalPages" :page="page" @change-page="changePage"/>-->
-  <div ref="observer" class="observer"></div>
+  <div v-intersection="loadMorePosts"></div>
 </template>
 
 <style scoped>

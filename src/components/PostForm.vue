@@ -25,14 +25,15 @@ export default {
   <form @submit.prevent class="form">
     <h3>Create post</h3>
     <UiInput
-        v-model="post.title"
-        type="text"
-        placeholder="Title"
+      v-focus
+      v-model="post.title"
+      type="text"
+      placeholder="Title"
     />
     <UiInput
-        v-model="post.body"
-        type="text"
-        placeholder="Body"
+      v-model="post.body"
+      type="text"
+      placeholder="Body"
     />
     <UiButton @click="createPost">Create</UiButton>
   </form>
