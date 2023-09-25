@@ -45,6 +45,11 @@ export default {
   },
   mounted() {
     this.fetchPosts()
+  },
+  computed: {
+    sortedPosts() {
+      return [...this.posts].sort((post1, post2) => post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))
+    }
   }
 }
 </script>
@@ -59,7 +64,7 @@ export default {
     <UiDialog v-model:show="dialogVisible">
       <PostForm @create="createPost"/>
     </UiDialog>
-    <PostList :posts="posts" @remove="removePost" v-if="!isPostLoading"/>
+    <PostList :posts="sortedPosts" @remove="removePost" v-if="!isPostLoading"/>
     <h3 v-else>Loading...</h3>
   </div>
 </template>
