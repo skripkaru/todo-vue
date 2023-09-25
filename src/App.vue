@@ -5,15 +5,17 @@ import UiDialog from "@/components/UI/UiDialog.vue";
 import UiButton from "@/components/UI/UiButton.vue";
 import axios from "axios";
 import UiSelect from "@/components/UI/UiSelect.vue";
+import UiInput from "@/components/UI/UiInput.vue";
 
 export default {
-  components: {UiSelect, UiButton, UiDialog, PostList, PostForm},
+  components: {UiInput, UiSelect, UiButton, UiDialog, PostList, PostForm},
   data() {
     return {
       posts: [],
       dialogVisible: false,
       isPostLoading: false,
       selectedSort: '',
+      searchQuery: '',
       sortOptions: [
         {name: 'By title', value: 'title'},
         {name: 'By description', value: 'body'}
@@ -49,6 +51,9 @@ export default {
   computed: {
     sortedPosts() {
       return [...this.posts].sort((post1, post2) => post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))
+    },
+    sortedAndSearchedPosts() {
+      return this.sortedPosts.filter(post => post.title.toLowerCase().includes(this.searchQuery.toLowerCase()))
     }
   }
 }
@@ -57,6 +62,7 @@ export default {
 <template>
   <div class="app">
     <h1>Post Page</h1>
+    <UiInput v-model="searchQuery" placeholder="Search"/>
     <div class="app__btns">
       <UiButton @click="showDialog">Create post</UiButton>
       <UiSelect v-model="selectedSort" :options="sortOptions"/>
@@ -64,7 +70,7 @@ export default {
     <UiDialog v-model:show="dialogVisible">
       <PostForm @create="createPost"/>
     </UiDialog>
-    <PostList :posts="sortedPosts" @remove="removePost" v-if="!isPostLoading"/>
+    <PostList :posts="sortedAndSearchedPosts" @remove="removePost" v-if="!isPostLoading"/>
     <h3 v-else>Loading...</h3>
   </div>
 </template>
