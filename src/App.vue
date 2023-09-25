@@ -6,9 +6,10 @@ import UiButton from "@/components/UI/UiButton.vue";
 import axios from "axios";
 import UiSelect from "@/components/UI/UiSelect.vue";
 import UiInput from "@/components/UI/UiInput.vue";
+import UiPagination from "@/components/UI/UiPagination.vue";
 
 export default {
-  components: {UiInput, UiSelect, UiButton, UiDialog, PostList, PostForm},
+  components: {UiPagination, UiInput, UiSelect, UiButton, UiDialog, PostList, PostForm},
   data() {
     return {
       posts: [],
@@ -16,6 +17,9 @@ export default {
       isPostLoading: false,
       selectedSort: '',
       searchQuery: '',
+      page: 1,
+      limit: 10,
+      totalPages: 0,
       sortOptions: [
         {name: 'By title', value: 'title'},
         {name: 'By description', value: 'body'}
@@ -36,13 +40,22 @@ export default {
     async fetchPosts() {
       try {
         this.isPostLoading = true
-        const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10')
+        const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
+          params: {
+            _page: this.page,
+            _limit: this.limit
+          }
+        })
+        this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit)
         this.posts = response.data
       } catch (e) {
         console.log('Error')
       } finally {
         this.isPostLoading = false
       }
+    },
+    changePage(pageNumber) {
+      this.page = pageNumber
     }
   },
   mounted() {
@@ -54,6 +67,11 @@ export default {
     },
     sortedAndSearchedPosts() {
       return this.sortedPosts.filter(post => post.title.toLowerCase().includes(this.searchQuery.toLowerCase()))
+    }
+  },
+  watch: {
+    page() {
+      this.fetchPosts()
     }
   }
 }
@@ -72,6 +90,7 @@ export default {
     </UiDialog>
     <PostList :posts="sortedAndSearchedPosts" @remove="removePost" v-if="!isPostLoading"/>
     <h3 v-else>Loading...</h3>
+    <UiPagination :total-pages="totalPages" :page="page" @change-page="changePage"/>
   </div>
 </template>
 
