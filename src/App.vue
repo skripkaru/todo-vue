@@ -4,14 +4,20 @@ import PostForm from "@/components/PostForm.vue";
 import UiDialog from "@/components/UI/UiDialog.vue";
 import UiButton from "@/components/UI/UiButton.vue";
 import axios from "axios";
+import UiSelect from "@/components/UI/UiSelect.vue";
 
 export default {
-  components: {UiButton, UiDialog, PostList, PostForm},
+  components: {UiSelect, UiButton, UiDialog, PostList, PostForm},
   data() {
     return {
       posts: [],
       dialogVisible: false,
       isPostLoading: false,
+      selectedSort: '',
+      sortOptions: [
+        {name: 'By title', value: 'title'},
+        {name: 'By description', value: 'body'}
+      ]
     }
   },
   methods: {
@@ -46,8 +52,9 @@ export default {
 <template>
   <div class="app">
     <h1>Post Page</h1>
-    <div>
+    <div class="app__btns">
       <UiButton @click="showDialog">Create post</UiButton>
+      <UiSelect v-model="selectedSort" :options="sortOptions"/>
     </div>
     <UiDialog v-model:show="dialogVisible">
       <PostForm @create="createPost"/>
@@ -73,5 +80,10 @@ export default {
   gap: 24px;
 }
 
-
+.app__btns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+}
 </style>
