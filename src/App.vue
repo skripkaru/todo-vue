@@ -1,9 +1,11 @@
 <script>
 import PostList from "@/components/PostList.vue";
 import PostForm from "@/components/PostForm.vue";
+import UiDialog from "@/components/UI/UiDialog.vue";
+import UiButton from "@/components/UI/UiButton.vue";
 
 export default {
-  components: {PostList, PostForm},
+  components: {UiButton, UiDialog, PostList, PostForm},
   data() {
     return {
       posts: [
@@ -11,16 +13,19 @@ export default {
         {id: 2, title: 'Title 2', body: 'Description 2'},
         {id: 3, title: 'Title 3', body: 'Description 3'},
       ],
-      title: '',
-      body: ''
+      dialogVisible: false
     }
   },
   methods: {
     createPost(post) {
       this.posts.push(post)
+      this.dialogVisible = false
     },
     removePost(post) {
       this.posts = this.posts.filter(p => p.id !== post.id)
+    },
+    showDialog() {
+      this.dialogVisible = true
     }
   }
 }
@@ -28,7 +33,13 @@ export default {
 
 <template>
   <div class="app">
-    <PostForm @create="createPost"/>
+    <h1>Post Page</h1>
+    <div>
+      <UiButton @click="showDialog">Create post</UiButton>
+    </div>
+    <UiDialog v-model:show="dialogVisible">
+      <PostForm @create="createPost"/>
+    </UiDialog>
     <PostList :posts="posts" @remove="removePost"/>
   </div>
 </template>
@@ -44,6 +55,9 @@ export default {
   padding: 16px 0;
   max-width: 600px;
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
 }
 
 

@@ -13,7 +13,7 @@ export default {
 </script>
 
 <template>
-  <ul class="post-list">
+  <ul class="post-list" v-if="posts.length > 0">
     <PostItem
         v-for="post in posts"
         :key="post.id"
@@ -21,6 +21,7 @@ export default {
         @remove="$emit('remove', post)"
     />
   </ul>
+  <h2 v-else>Post list is empty</h2>
 </template>
 
 <style scoped>
