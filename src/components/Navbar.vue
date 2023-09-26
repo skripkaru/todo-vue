@@ -14,6 +14,7 @@ export default {
       <UiButton @click="$router.push('/posts')">Posts</UiButton>
       <UiButton @click="$router.push('/about')">About</UiButton>
       <UiButton @click="$router.push('/store')">Store</UiButton>
+      <UiButton @click="$router.push('/composition')">Composition</UiButton>
     </div>
   </div>
 </template>
