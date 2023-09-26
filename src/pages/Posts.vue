@@ -50,14 +50,11 @@ export default {
         this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit)
         this.posts = response.data
       } catch (e) {
-        console.log('Error')
+        console.log(e)
       } finally {
         this.isPostLoading = false
       }
     },
-    // changePage(pageNumber) {
-    //   this.page = pageNumber
-    // },
     async loadMorePosts() {
       try {
         this.page += 1
@@ -70,23 +67,12 @@ export default {
         this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit)
         this.posts = [...this.posts, ...response.data]
       } catch (e) {
-        console.log('Error')
+        console.log(e)
       }
     },
   },
   mounted() {
     this.fetchPosts()
-    // const options = {
-    //   rootMargin: '0px',
-    //   threshold: 1.0,
-    // }
-    // const callback = (entries, observer) => {
-    //   if (entries[0].isIntersecting && this.page < this.totalPages) {
-    //     this.loadMorePosts()
-    //   }
-    // }
-    // const observer = new IntersectionObserver(callback, options);
-    // observer.observe(this.$refs.observer)
   },
   computed: {
     sortedPosts() {
@@ -96,11 +82,6 @@ export default {
       return this.sortedPosts.filter(post => post.title.toLowerCase().includes(this.searchQuery.toLowerCase()))
     }
   },
-  watch: {
-    // page() {
-    //   this.fetchPosts()
-    // }
-  }
 }
 </script>
 
@@ -116,7 +97,6 @@ export default {
   </UiDialog>
   <PostList :posts="sortedAndSearchedPosts" @remove="removePost" v-if="!isPostLoading"/>
   <h3 v-else>Loading...</h3>
-  <!--    <UiPagination :total-pages="totalPages" :page="page" @change-page="changePage"/>-->
   <div v-intersection="loadMorePosts"></div>
 </template>
 

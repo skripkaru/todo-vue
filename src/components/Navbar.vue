@@ -13,6 +13,7 @@ export default {
     <div class="navbar__btns">
       <UiButton @click="$router.push('/posts')">Posts</UiButton>
       <UiButton @click="$router.push('/about')">About</UiButton>
+      <UiButton @click="$router.push('/store')">Store</UiButton>
     </div>
   </div>
 </template>
